@@ -6,3 +6,10 @@
 * Siddharth Bharat-40230155   : Problem 1 questions , review on problem 1 and documentation of report
 * Nomesh-40229979
 
+┌──────────┬────────────────────┐
+│  Custom  │      Borders       │
+├──────────┼────────────────────┤
+│are       │super fun           │
+├──────────┼────────────────────┤
+│and       │super awesome       │
+└──────────┴────────────────────┘
