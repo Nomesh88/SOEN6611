@@ -24,7 +24,7 @@ class ConverterFrame(ttk.Frame):
         self.range_of_data_label = ttk.Label(self, text='Range of data')
         self.range_of_data_label.grid(column=0, row=0, sticky=tk.W, **options)
 
-        # temperature entry
+        # data range
         self.data_range = tk.StringVar()
         self.data_range_entry = ttk.Entry(self, textvariable=self.data_range)
         self.data_range_entry.grid(column=1, row=0, **options)
