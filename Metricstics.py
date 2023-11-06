@@ -24,6 +24,24 @@ class Metricstics:
                 return ("Range must be at least 1000.")
         except ValueError:
             return ("Invalid input. Please enter a number.")
+    
+    @staticmethod
+    def mode(data):
+        count_dict = {}
+        for num in data:
+            if num in count_dict:
+                count_dict[num] += 1
+            else:
+                count_dict[num] = 1
+
+        max_count = max(count_dict.values())
+        mode_values = [num for num, count in count_dict.items() if count == max_count]
+
+        if len(mode_values) == 1:
+            return mode_values[0]
+        else:
+            return mode_values
+
 class MetricsticsFrame(ttk.Frame):
     def __init__(self, container):
         super().__init__(container)
@@ -79,6 +97,11 @@ class MetricsticsFrame(ttk.Frame):
         self.standard_deviation_button['command'] = self.standardDeviation
         self.standard_deviation_button.grid(column=5, row=3, sticky=tk.SW, **options)
 
+        # button Mode
+        self.mode_button = ttk.Button(self, text='Mode')
+        self.mode_button['command'] = self.calculateMode
+        self.mode_button.grid(column=6, row=3, sticky=tk.SW, **options)
+
         # Min data label
         self.min_data_label = ttk.Label(self, text='')
         self.min_data_label.grid(column=0, row=4, sticky=tk.W, **options)
@@ -102,6 +125,10 @@ class MetricsticsFrame(ttk.Frame):
         # standardDeviation data label
         self.standardDeviation_data_label = ttk.Label(self, text='')
         self.standardDeviation_data_label.grid(column=5, row=4, sticky=tk.W, **options)
+
+        # Mode data label
+        self.mode_data_label = ttk.Label(self, text='')
+        self.mode_data_label.grid(column=6, row=4, sticky=tk.W, **options)
 
         # add padding to the frame and show it
         self.grid(padx=20, pady=20, sticky=tk.NSEW)
@@ -190,6 +217,17 @@ class MetricsticsFrame(ttk.Frame):
                 new_text = 'Max: ' + str(max_value)
                 self.max_data_label.config(text=new_text)
 
+        except ValueError as error:
+            showerror(title='Error', message=error)
+
+    def calculateMode(self):
+        try:
+            data = Metricstics.generated_data
+            if data:
+                result = Metricstics.mode(data)
+                if isinstance(result, list):
+                    result = ", ".join(map(str, result))
+                self.mode_data_label.config(text=result)
         except ValueError as error:
             showerror(title='Error', message=error)
 
