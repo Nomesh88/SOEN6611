@@ -1,19 +1,23 @@
 import tkinter as tk
 import random
 import math
-from tkinter import ttk, scrolledtext
-from tkinter.messagebox import showerror
+from tkinter import ttk, scrolledtext, messagebox
 
 # DataGenerator class is responsible for generating random data.
 class DataGenerator:
-    def generate_data(self, f):
+    generated_data = None
+
+    @staticmethod
+    def generate_data(self):
         try:
+            f = int(self.data_range.get())
             if f >= 1000:
-                return [random.randint(0, 1000) for _ in range(f)]
+                DataGenerator.generated_data = [random.randint(0, 1000) for _ in range(f)]
+                return DataGenerator.generated_data
             else:
                 return "Range must be at least 1000."
-        except ValueError:
-            return "Invalid input. Please enter a number."
+        except ValueError as error:
+            messagebox.showerror("Error", "Please enter a valid number of range")
 
 # Metricstics class handles various statistical calculations without using built-in functions.
 class Metricstics:
@@ -96,9 +100,8 @@ class Metricstics:
 
 # MetricsticsFrame class represents the main UI for the application.
 class MetricsticsFrame(ttk.Frame):
-    def __init__(self, container, data_generator, metrics_calculator):
+    def __init__(self, container, metrics_calculator):
         super().__init__(container)
-        self.data_generator = data_generator
         self.metrics_calculator = metrics_calculator
 
         # UI setup
@@ -120,7 +123,7 @@ class MetricsticsFrame(ttk.Frame):
         self.generate_button['command'] = self.generate_data
         self.generate_button.grid(column=2, row=0, **options)
 
-        self.data_text = scrolledtext.ScrolledText(left_frame, wrap=tk.WORD, width=30, height=10)
+        self.data_text = scrolledtext.ScrolledText(left_frame, wrap=tk.WORD, width=30, height=20)
         self.data_text.grid(row=1, column=0, columnspan=3, rowspan=3, **options)
 
         # Right frame for calculations and results
@@ -154,6 +157,9 @@ class MetricsticsFrame(ttk.Frame):
         self.result_text = scrolledtext.ScrolledText(right_frame, wrap=tk.WORD, width=30, height=3)  # Smaller text box
         self.result_text.grid(row=1, column=0, columnspan=1, rowspan=3, **options)
 
+        self.clear_button = ttk.Button(button_frame, text='Clear text')
+        self.clear_button.grid(column=0, row=7, sticky=tk.W, **options)
+
         # Set up button event handlers
         self.mode_button['command'] = self.calculate_mode
         self.mean_button['command'] = self.calculate_mean
@@ -162,75 +168,91 @@ class MetricsticsFrame(ttk.Frame):
         self.max_button['command'] = self.calculate_max
         self.mad_button['command'] = self.calculate_mad
         self.std_dev_button['command'] = self.calculate_standard_deviation
+        self.clear_button['command'] = self.clear_text
 
         self.grid(padx=20, pady=20, sticky=tk.NSEW)
 
+    def clear_text(self):
+        self.update_result_text("")
     def calculate_mode(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
-        if isinstance(data, list):
-            result = self.metrics_calculator.calculate_mode(data)
-            self.update_result_text(f"Mode: {result}")
-        else:
-            self.update_result_text(data)
+        try:
+            data = DataGenerator.generated_data
+            if isinstance(data, list):
+                result = self.metrics_calculator.calculate_mode(data)
+                self.update_result_text(f"Mode: {result}")
+            else:
+                self.update_result_text(data)
+        except ValueError as error:
+            messagebox.showerror(title='Error', message=error)
 
     def calculate_mean(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
-        if isinstance(data, list):
-            result = self.metrics_calculator.calculate_mean(data)
-            self.update_result_text(f"Mean (μ): {result}")
-        else:
-            self.update_result_text(data)
+        try:
+            data = DataGenerator.generated_data
+            if isinstance(data, list):
+                result = self.metrics_calculator.calculate_mean(data)
+                self.update_result_text(f"Mean (μ): {result}")
+            else:
+                self.update_result_text(data)
+        except ValueError as error:
+            messagebox.showerror(title='Error', message=error)
 
     def calculate_median(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
-        if isinstance(data, list):
-            result = self.metrics_calculator.calculate_median(data)
-            self.update_result_text(f"Median: {result}")
-        else:
-            self.update_result_text(data)
-                
-    def calculate_median(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
-        if isinstance(data, list):
-            result = self.metrics_calculator.calculate_median(data)
-            self.update_result_text(f"Median: {result}")
-        else:
-            self.update_result_text(data)
+        try:
+            data = DataGenerator.generated_data
+            if isinstance(data, list):
+                result = self.metrics_calculator.calculate_median(data)
+                self.update_result_text(f"Median: {result}")
+            else:
+                self.update_result_text(data)
+        except ValueError as error:
+            messagebox.showerror(title='Error', message=error)
 
     def calculate_min(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
-        if isinstance(data, list):
-            result = self.metrics_calculator.calculate_min(data)
-            self.update_result_text(f"Min: {result}")
-        else:
-            self.update_result_text(data)
+        try:
+            data = DataGenerator.generated_data
+            if isinstance(data, list):
+                result = self.metrics_calculator.calculate_min(data)
+                self.update_result_text(f"Min: {result}")
+            else:
+                self.update_result_text(data)
+        except ValueError as error:
+            messagebox.showerror(title='Error', message=error)
 
     def calculate_max(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
-        if isinstance(data, list):
-            result = self.metrics_calculator.calculate_max(data)
-            self.update_result_text(f"Max: {result}")
-        else:
-            self.update_result_text(data)
+        try:
+            data = DataGenerator.generated_data
+            if isinstance(data, list):
+                result = self.metrics_calculator.calculate_max(data)
+                self.update_result_text(f"Max: {result}")
+            else:
+                self.update_result_text(data)
+        except ValueError as error:
+            messagebox.showerror(title='Error', message=error)
 
     def calculate_mad(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
-        if isinstance(data, list):
-            result = self.metrics_calculator.calculate_mad(data)
-            self.update_result_text(f"Mean Absolute Deviation (MAD): {result}")
-        else:
-            self.update_result_text(data)
+        try:
+            data = DataGenerator.generated_data
+            if isinstance(data, list):
+                result = self.metrics_calculator.calculate_mad(data)
+                self.update_result_text(f"Mean Absolute Deviation (MAD): {result}")
+            else:
+                self.update_result_text(data)
+        except ValueError as error:
+            messagebox.showerror(title='Error', message=error)
 
     def calculate_standard_deviation(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
-        if isinstance(data, list):
-            result = self.metrics_calculator.calculate_standard_deviation(data)
-            self.update_result_text(f"Standard Deviation (σ): {result}")
-        else:
-            self.update_result_text(data)
+        try:
+            data = DataGenerator.generated_data
+            if isinstance(data, list):
+                result = self.metrics_calculator.calculate_standard_deviation(data)
+                self.update_result_text(f"Standard Deviation (σ): {result}")
+            else:
+                self.update_result_text(data)
+        except ValueError as error:
+            messagebox.showerror(title='Error', message=error)
 
     def generate_data(self):
-        data = self.data_generator.generate_data(int(self.data_range.get()))
+        data = DataGenerator.generate_data(self)
         if isinstance(data, list):
             self.update_data_text("Generated Data:\n" + ", ".join(map(str, data))
         )
@@ -238,26 +260,28 @@ class MetricsticsFrame(ttk.Frame):
             self.update_data_text(data)
 
     def update_data_text(self, text):
-        self.data_text.delete(1.0, tk.END)
-        self.data_text.insert(tk.END, text)
-
+        try:
+            self.data_text.delete(1.0, tk.END)
+            self.data_text.insert(tk.END, text)
+        except Exception as error:
+            print(error)
     def update_result_text(self, text):
-        self.result_text.delete(1.0, tk.END)
-        self.result_text.insert(tk.END, text)
-
+        try:
+            self.result_text.delete(1.0, tk.END)
+            self.result_text.insert(tk.END, text)
+        except Exception as error:
+            print(error)
 # App class represents the main application window.
 class App(tk.Tk):
-    def __init__(self, data_generator, metrics_calculator):
+    def __init__(self, metrics_calculator):
         super().__init__()
         self.title('METRICSTICS')
-        self.geometry('700x350')  # Adjusted window width
+        self.geometry('700x400')  # Adjusted window width
         self.resizable(False, False)
-        self.data_generator = data_generator
         self.metrics_calculator = metrics_calculator
 
 if __name__ == "__main__":
-    data_generator = DataGenerator()
     metrics_calculator = Metricstics()
-    app = App(data_generator, metrics_calculator)
-    MetricsticsFrame(app, data_generator, metrics_calculator)
+    app = App(metrics_calculator)
+    MetricsticsFrame(app, metrics_calculator)
     app.mainloop()
