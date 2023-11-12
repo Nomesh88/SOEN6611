@@ -157,8 +157,12 @@ class MetricsticsFrame(ttk.Frame):
         self.result_text = scrolledtext.ScrolledText(right_frame, wrap=tk.WORD, width=30, height=3)  # Smaller text box
         self.result_text.grid(row=1, column=0, columnspan=1, rowspan=3, **options)
 
-        self.clear_button = ttk.Button(button_frame, text='Clear text')
-        self.clear_button.grid(column=0, row=7, sticky=tk.W, **options)
+        # Reset button
+        self.reset_button = ttk.Button(button_frame, text='Reset')
+        self.reset_button.grid(column=0, row=8, sticky=tk.W, **options)
+
+        #self.clear_button = ttk.Button(button_frame, text='Clear text')
+        #self.clear_button.grid(column=0, row=7, sticky=tk.W, **options)
 
         # Set up button event handlers
         self.mode_button['command'] = self.calculate_mode
@@ -168,9 +172,19 @@ class MetricsticsFrame(ttk.Frame):
         self.max_button['command'] = self.calculate_max
         self.mad_button['command'] = self.calculate_mad
         self.std_dev_button['command'] = self.calculate_standard_deviation
-        self.clear_button['command'] = self.clear_text
+        self.reset_button['command'] = self.reset_program
+        #self.clear_button['command'] = self.clear_text
 
         self.grid(padx=20, pady=20, sticky=tk.NSEW)
+        
+        
+        
+
+    def reset_program(self):
+        # Clear data and result text
+        self.clear_text()
+        # Clear generated data in DataGenerator
+        DataGenerator.generated_data = None
 
     def clear_text(self):
         self.update_data_text("")
@@ -273,12 +287,45 @@ class MetricsticsFrame(ttk.Frame):
             self.result_text.insert(tk.END, text)
         except Exception as error:
             print(error)
+
+    def calculate_statistic(self, operation, operation_name):
+        try:
+            data = DataGenerator.generated_data
+            if isinstance(data, list):
+                result = operation(data)
+                self.update_result_text(f"{operation_name}: {result}")
+            else:
+                self.update_result_text("Generate Data to calculate")
+        except ValueError as error:
+            messagebox.showerror(title='Error', message=error)
+
+    def calculate_mode(self):
+        self.calculate_statistic(self.metrics_calculator.calculate_mode, "Mode")
+
+    def calculate_mean(self):
+        self.calculate_statistic(self.metrics_calculator.calculate_mean, "Mean (μ)")
+
+    def calculate_median(self):
+        self.calculate_statistic(self.metrics_calculator.calculate_median, "Median")
+
+    def calculate_min(self):
+        self.calculate_statistic(self.metrics_calculator.calculate_min, "Min")
+
+    def calculate_max(self):
+        self.calculate_statistic(self.metrics_calculator.calculate_max, "Max")
+
+    def calculate_mad(self):
+        self.calculate_statistic(self.metrics_calculator.calculate_mad, "Mean Absolute Deviation (MAD)")
+
+    def calculate_standard_deviation(self):
+        self.calculate_statistic(self.metrics_calculator.calculate_standard_deviation, "Standard Deviation (σ)")
+
 # App class represents the main application window.
 class App(tk.Tk):
     def __init__(self, metrics_calculator):
         super().__init__()
         self.title('METRICSTICS')
-        self.geometry('700x400')  # Adjusted window width
+        self.geometry('700x400')  
         self.resizable(False, False)
         self.metrics_calculator = metrics_calculator
 
