@@ -9,19 +9,21 @@ class DataGenerator:
 
     @staticmethod
     def generate_data(self):
+        # Generates random data within the specified range.
         try:
             f = int(self.data_range.get())
             if f >= 1000:
                 DataGenerator.generated_data = [random.randint(0, 1000) for _ in range(f)]
                 return DataGenerator.generated_data
             else:
-                return "Range must be at least 1000."
+                return "Range must be at least 1000. Enter positive numbers."
         except ValueError as error:
             messagebox.showerror("Error", "Please enter a valid number of range")
 
 # Metricstics class handles various statistical calculations without using built-in functions.
 class Metricstics:
     def calculate_min(self, data):
+        # Calculates the minimum value in the given data.
         if not data:
             return 0
         min_value = data[0]
@@ -31,6 +33,7 @@ class Metricstics:
         return min_value
 
     def calculate_max(self, data):
+        # Calculates the maximum value in the given data.
         if not data:
             return 0
         max_value = data[0]
@@ -40,6 +43,7 @@ class Metricstics:
         return max_value
 
     def calculate_mean(self, data):
+        # Calculates the mean (average) of the given data.
         if not data:
             return 0
         total = 0
@@ -48,6 +52,7 @@ class Metricstics:
         return total / len(data)
 
     def calculate_median(self, data):
+        # Calculates the median of the given data.
         if not data:
             return 0
         sorted_data = sorted(data)
@@ -58,6 +63,7 @@ class Metricstics:
             return sorted_data[mid]
 
     def calculate_mode(self, data):
+        # Calculates the mode(s) of the given data.
         if not data:
             return 0
         count_dict = {}
@@ -76,6 +82,7 @@ class Metricstics:
             return mode_values
 
     def calculate_mad(self, data):
+        # Calculates the Mean Absolute Deviation (MAD) of the given data.
         if not data:
             return 0
         mean = self.calculate_mean(data)
@@ -85,6 +92,7 @@ class Metricstics:
         return total / len(data)
 
     def calculate_standard_deviation(self, data):
+        # Calculates the standard deviation of the given data.
         if not data:
             return 0
         mean = self.calculate_mean(data)
@@ -94,6 +102,7 @@ class Metricstics:
         return math.sqrt(variance / (len(data) - 1))
 
     def absolute(self, num):
+        # Returns the absolute value of a number.
         if num < 0:
             return -num
         return num
@@ -181,16 +190,18 @@ class MetricsticsFrame(ttk.Frame):
         
 
     def reset_program(self):
-        # Clear data and result text
+        # Resets the program by clearing data and result text.
         self.clear_text()
         # Clear generated data in DataGenerator
         DataGenerator.generated_data = None
 
     def clear_text(self):
+        # Clears the text in both data and result text boxes.
         self.update_data_text("")
         self.update_result_text("")
-        
+
     def calculate_mode(self):
+        # Calculates and displays the mode of the generated data.
         try:
             data = DataGenerator.generated_data
             if isinstance(data, list):
@@ -202,6 +213,7 @@ class MetricsticsFrame(ttk.Frame):
             messagebox.showerror(title='Error', message=error)
 
     def calculate_mean(self):
+        # Calculates and displays the mean of the generated data.
         try:
             data = DataGenerator.generated_data
             if isinstance(data, list):
@@ -213,6 +225,7 @@ class MetricsticsFrame(ttk.Frame):
             messagebox.showerror(title='Error', message=error)
 
     def calculate_median(self):
+        # Calculates and displays the median of the generated data.
         try:
             data = DataGenerator.generated_data
             if isinstance(data, list):
@@ -224,6 +237,7 @@ class MetricsticsFrame(ttk.Frame):
             messagebox.showerror(title='Error', message=error)
 
     def calculate_min(self):
+        # Calculates and displays the minimum vale of the generated data.
         try:
             data = DataGenerator.generated_data
             if isinstance(data, list):
@@ -235,6 +249,7 @@ class MetricsticsFrame(ttk.Frame):
             messagebox.showerror(title='Error', message=error)
 
     def calculate_max(self):
+        # Calculates and displays the maximum value of the generated data.
         try:
             data = DataGenerator.generated_data
             if isinstance(data, list):
@@ -246,6 +261,7 @@ class MetricsticsFrame(ttk.Frame):
             messagebox.showerror(title='Error', message=error)
 
     def calculate_mad(self):
+        # Calculates and displays the MAD of the generated data.
         try:
             data = DataGenerator.generated_data
             if isinstance(data, list):
@@ -257,6 +273,7 @@ class MetricsticsFrame(ttk.Frame):
             messagebox.showerror(title='Error', message=error)
 
     def calculate_standard_deviation(self):
+        # Calculates and displays the SD of the generated data.
         try:
             data = DataGenerator.generated_data
             if isinstance(data, list):
@@ -268,6 +285,7 @@ class MetricsticsFrame(ttk.Frame):
             messagebox.showerror(title='Error', message=error)
 
     def generate_data(self):
+        # Generates random data and updates the data text box.
         data = DataGenerator.generate_data(self)
         if isinstance(data, list):
             self.update_data_text("Generated Data:\n" + ", ".join(map(str, data))
@@ -276,12 +294,14 @@ class MetricsticsFrame(ttk.Frame):
             self.update_data_text(data)
 
     def update_data_text(self, text):
+        # Updates the data text box with the given text.
         try:
             self.data_text.delete(1.0, tk.END)
             self.data_text.insert(tk.END, text)
         except Exception as error:
             print(error)
     def update_result_text(self, text):
+        # Updates the result text box with the given text.
         try:
             self.result_text.delete(1.0, tk.END)
             self.result_text.insert(tk.END, text)
@@ -289,6 +309,7 @@ class MetricsticsFrame(ttk.Frame):
             print(error)
 
     def calculate_statistic(self, operation, operation_name):
+        # Calculates and displays the result of a given statistical operation.
         try:
             data = DataGenerator.generated_data
             if isinstance(data, list):
@@ -300,29 +321,37 @@ class MetricsticsFrame(ttk.Frame):
             messagebox.showerror(title='Error', message=error)
 
     def calculate_mode(self):
+        # Wrapper function for calculating and displaying the mode.
         self.calculate_statistic(self.metrics_calculator.calculate_mode, "Mode")
 
     def calculate_mean(self):
+        # Wrapper function for calculating and displaying the mean.
         self.calculate_statistic(self.metrics_calculator.calculate_mean, "Mean (μ)")
 
     def calculate_median(self):
+        # Wrapper function for calculating and displaying the median.
         self.calculate_statistic(self.metrics_calculator.calculate_median, "Median")
 
     def calculate_min(self):
+        # Wrapper function for calculating and displaying the minimum value.
         self.calculate_statistic(self.metrics_calculator.calculate_min, "Min")
 
     def calculate_max(self):
+        # Wrapper function for calculating and displaying the maximum value.
         self.calculate_statistic(self.metrics_calculator.calculate_max, "Max")
 
     def calculate_mad(self):
+        # Wrapper function for calculating and displaying the MAD.
         self.calculate_statistic(self.metrics_calculator.calculate_mad, "Mean Absolute Deviation (MAD)")
 
     def calculate_standard_deviation(self):
+        # Wrapper function for calculating and displaying the SD.
         self.calculate_statistic(self.metrics_calculator.calculate_standard_deviation, "Standard Deviation (σ)")
 
 # App class represents the main application window.
 class App(tk.Tk):
     def __init__(self, metrics_calculator):
+        # Initializes the main application window.
         super().__init__()
         self.title('METRICSTICS')
         self.geometry('700x400')  
@@ -330,6 +359,7 @@ class App(tk.Tk):
         self.metrics_calculator = metrics_calculator
 
 if __name__ == "__main__":
+    # Initializes the metrics calculator and the main application.
     metrics_calculator = Metricstics()
     app = App(metrics_calculator)
     MetricsticsFrame(app, metrics_calculator)
