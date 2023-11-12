@@ -173,7 +173,9 @@ class MetricsticsFrame(ttk.Frame):
         self.grid(padx=20, pady=20, sticky=tk.NSEW)
 
     def clear_text(self):
+        self.update_data_text("")
         self.update_result_text("")
+        
     def calculate_mode(self):
         try:
             data = DataGenerator.generated_data
