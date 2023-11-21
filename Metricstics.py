@@ -293,6 +293,11 @@ class MetricsticsFrame(ttk.Frame):
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
         if file_path:
             content = self.read_and_display_file(file_path)
+            # Check if the content contains only numeric values
+            if not content.replace(',', '').strip().isdigit():
+                messagebox.showerror("Error", "The data file contains non-numeric entries")
+                return
+
             data_list = [int(num.strip()) for num in content.split(',')]
             if not data_list:
                 messagebox.showerror("Error", "The data file is empty or contains invalid entries")
