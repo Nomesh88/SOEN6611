@@ -1,7 +1,7 @@
 import tkinter as tk
 import random
 import math
-from tkinter import ttk, scrolledtext, messagebox
+from tkinter import ttk, scrolledtext, messagebox, filedialog
 
 # DataGenerator class is responsible for generating random data.
 class DataGenerator:
@@ -131,6 +131,10 @@ class MetricsticsFrame(ttk.Frame):
         self.generate_button = ttk.Button(left_frame, text='Generate Data')
         self.generate_button['command'] = self.generate_data
         self.generate_button.grid(column=2, row=0, **options)
+
+        self.upload_button = ttk.Button(left_frame, text='Choose file')
+        self.upload_button['command'] = self.choose_file
+        self.upload_button.grid(column=3, row=0, **options)
 
         self.data_text = scrolledtext.ScrolledText(left_frame, wrap=tk.WORD, width=30, height=20)
         self.data_text.grid(row=1, column=0, columnspan=3, rowspan=3, **options)
@@ -284,6 +288,30 @@ class MetricsticsFrame(ttk.Frame):
         except ValueError as error:
             messagebox.showerror(title='Error', message=error)
 
+    # Choose an external file to upload dataset
+    def choose_file(self):
+        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+        if file_path:
+            content = self.read_and_display_file(file_path)
+            data_list = [int(num.strip()) for num in content.split(',')]
+            if not data_list:
+                messagebox.showerror("Error", "The data file is empty or contains invalid entries")
+
+            DataGenerator.generated_data = data_list
+            self.update_data_text(content)
+        else:
+            messagebox.showerror(title='Error', message="No file detected!")
+
+    # read the content of selected file
+    @staticmethod
+    def read_and_display_file(file_path):
+        try:
+            with open(file_path, 'r') as file:
+                content = file.read()
+                return content
+        except FileNotFoundError as error:
+            messagebox.showerror(title='Error', message=error)
+
     def generate_data(self):
         # Generates random data and updates the data text box.
         data = DataGenerator.generate_data(self)
@@ -354,7 +382,7 @@ class App(tk.Tk):
         # Initializes the main application window.
         super().__init__()
         self.title('METRICSTICS')
-        self.geometry('700x400')  
+        self.geometry('850x400')
         self.resizable(False, False)
         self.metrics_calculator = metrics_calculator
 
