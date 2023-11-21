@@ -1,7 +1,7 @@
 import tkinter as tk
 import random
 import math
-from tkinter import ttk, scrolledtext, messagebox
+from tkinter import ttk, scrolledtext, messagebox, filedialog
 
 # DataGenerator class is responsible for generating random data.
 class DataGenerator:
@@ -131,6 +131,10 @@ class MetricsticsFrame(ttk.Frame):
         self.generate_button = ttk.Button(left_frame, text='Generate Data')
         self.generate_button['command'] = self.generate_data
         self.generate_button.grid(column=2, row=0, **options)
+
+        self.upload_button = ttk.Button(left_frame, text='Choose file')
+        self.upload_button['command'] = self.choose_file
+        self.upload_button.grid(column=3, row=0, **options)
 
         self.data_text = scrolledtext.ScrolledText(left_frame, wrap=tk.WORD, width=30, height=20)
         self.data_text.grid(row=1, column=0, columnspan=3, rowspan=3, **options)
@@ -284,6 +288,30 @@ class MetricsticsFrame(ttk.Frame):
         except ValueError as error:
             messagebox.showerror(title='Error', message=error)
 
+    # Choose an external file to upload dataset
+    def choose_file(self):
+        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+        if file_path:
+            content = self.read_and_display_file(file_path)
+            data_list = [int(num.strip()) for num in content.split(',')]
+            if not data_list:
+                messagebox.showerror("Error", "The data file is empty or contains invalid entries")
+
+            DataGenerator.generated_data = data_list
+            self.update_data_text(content)
+        else:
+            messagebox.showerror(title='Error', message="No file detected!")
+
+    # read the content of selected file
+    @staticmethod
+    def read_and_display_file(file_path):
+        try:
+            with open(file_path, 'r') as file:
+                content = file.read()
+                return content
+        except FileNotFoundError as error:
+            messagebox.showerror(title='Error', message=error)
+
     def generate_data(self):
         # Generates random data and updates the data text box.
         data = DataGenerator.generate_data(self)
@@ -349,18 +377,64 @@ class MetricsticsFrame(ttk.Frame):
         self.calculate_statistic(self.metrics_calculator.calculate_standard_deviation, "Standard Deviation (σ)")
 
 # App class represents the main application window.
+
+
+
+
+
+class LoginWindow(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.title("Login")
+        self.geometry("300x150")
+
+        self.username_label = ttk.Label(self, text="Username:")
+        self.username_label.grid(row=0, column=0, padx=10, pady=10)
+
+        self.username_entry = ttk.Entry(self)
+        self.username_entry.grid(row=0, column=1, padx=10, pady=10)
+
+        self.password_label = ttk.Label(self, text="Password:")
+        self.password_label.grid(row=1, column=0, padx=10, pady=10)
+
+        self.password_entry = ttk.Entry(self, show="*")
+        self.password_entry.grid(row=1, column=1, padx=10, pady=10)
+
+        self.login_button = ttk.Button(self, text="Login", command=self.login)
+        self.login_button.grid(row=2, column=0, columnspan=2, pady=10)
+
+    def login(self):
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+
+        # Hardcoded credentials
+        credentials = {"admin": "admin", "teacher": "teacher", "student": "student"}
+
+        if username in credentials and credentials[username] == password:
+            self.destroy()  # Close the login window
+            app.show_main_window()  # Show the main application window
+        else:
+            messagebox.showerror("Login Failed", "Invalid username or password")
+
+
 class App(tk.Tk):
     def __init__(self, metrics_calculator):
-        # Initializes the main application window.
         super().__init__()
         self.title('METRICSTICS')
-        self.geometry('700x400')  
+        self.geometry('850x400')
         self.resizable(False, False)
         self.metrics_calculator = metrics_calculator
+        self.login_window = LoginWindow(self)
+        self.withdraw()  # Hide the main window initially
+
+    def show_main_window(self):
+        self.deiconify()  # Show the main window
+        self.login_window.destroy()  # Close the login window
+
 
 if __name__ == "__main__":
-    # Initializes the metrics calculator and the main application.
     metrics_calculator = Metricstics()
     app = App(metrics_calculator)
+    app.login_window.wait_window()  # Wait for the login window to be closed
     MetricsticsFrame(app, metrics_calculator)
     app.mainloop()
