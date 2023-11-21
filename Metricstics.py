@@ -377,18 +377,64 @@ class MetricsticsFrame(ttk.Frame):
         self.calculate_statistic(self.metrics_calculator.calculate_standard_deviation, "Standard Deviation (σ)")
 
 # App class represents the main application window.
+
+
+
+
+
+class LoginWindow(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.title("Login")
+        self.geometry("300x150")
+
+        self.username_label = ttk.Label(self, text="Username:")
+        self.username_label.grid(row=0, column=0, padx=10, pady=10)
+
+        self.username_entry = ttk.Entry(self)
+        self.username_entry.grid(row=0, column=1, padx=10, pady=10)
+
+        self.password_label = ttk.Label(self, text="Password:")
+        self.password_label.grid(row=1, column=0, padx=10, pady=10)
+
+        self.password_entry = ttk.Entry(self, show="*")
+        self.password_entry.grid(row=1, column=1, padx=10, pady=10)
+
+        self.login_button = ttk.Button(self, text="Login", command=self.login)
+        self.login_button.grid(row=2, column=0, columnspan=2, pady=10)
+
+    def login(self):
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+
+        # Hardcoded credentials
+        credentials = {"admin": "admin", "teacher": "teacher", "student": "student"}
+
+        if username in credentials and credentials[username] == password:
+            self.destroy()  # Close the login window
+            app.show_main_window()  # Show the main application window
+        else:
+            messagebox.showerror("Login Failed", "Invalid username or password")
+
+
 class App(tk.Tk):
     def __init__(self, metrics_calculator):
-        # Initializes the main application window.
         super().__init__()
         self.title('METRICSTICS')
         self.geometry('850x400')
         self.resizable(False, False)
         self.metrics_calculator = metrics_calculator
+        self.login_window = LoginWindow(self)
+        self.withdraw()  # Hide the main window initially
+
+    def show_main_window(self):
+        self.deiconify()  # Show the main window
+        self.login_window.destroy()  # Close the login window
+
 
 if __name__ == "__main__":
-    # Initializes the metrics calculator and the main application.
     metrics_calculator = Metricstics()
     app = App(metrics_calculator)
+    app.login_window.wait_window()  # Wait for the login window to be closed
     MetricsticsFrame(app, metrics_calculator)
     app.mainloop()
