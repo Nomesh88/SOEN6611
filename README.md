@@ -1,6 +1,6 @@
 # SOEN6611
 
-## Work Distribution
+## Work Distribution for D1
 
 | Name | Contribution |
 |----------|----------|
@@ -14,10 +14,10 @@
 <a>https://docs.google.com/spreadsheets/d/1PChJmsqpT6IStGcZZ-cAmisoWRGVGSgGwB6NiNax7Fk/edit?usp=sharing</a>
 
 # project code requirements
-<li>1. Add a disable button if generated data is not clicked </li>
-<li>2. Add exception handling for values less than 1000</li>
-<li>3. Add a clear button to clear the input data and make sure all the methods are not using the previous values after clearing the data.</li>
-<li>4. Provide proper comments using python.</li>
+<li>1. Add a disable button if generated data is not clicked [Done/Completed]</li>
+<li>2. Add exception handling for values less than 1000 [Done/Completed]</li>
+<li>3. Add a clear button to clear the input data and make sure all the methods are not using the previous values after clearing the data.[Done/Completed] </li>
+<li>4. Provide proper comments using python. [Done/Completed] </li>
 
 ## Work Distribution for D2
 
