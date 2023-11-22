@@ -1,9 +1,3 @@
-
-<a>https://pypi.org/project/radon/</a> - Used for genarting physical and logical sloc and to compute cyclomatic complexity
-https://docs.python.org/3/library/tkinter.html - used for GUI of System
-https://chat.openai.com/ - For genarating Palntuml code for class diagram based on our code
-https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000 - Using the code genrated from chatgpt we plot dependency diagram
-=======
 <a> https://pypi.org/project/radon/ </a>- Used for genarting physical and logical sloc and to compute cyclomatic complexity
 <a> https://docs.python.org/3/library/tkinter.html </a> - used for GUI of System
 <a> https://chat.openai.com/ </a> - For genarating Palntuml code for class diagram based on our code
