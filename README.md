@@ -19,7 +19,7 @@
 <li>3. Add a clear button to clear the input data and make sure all the methods are not using the previous values after clearing the data.[Done/Completed] </li>
 <li>4. Provide proper comments using python. [Done/Completed] </li>
 
-## Work Distribution for D2
+## Work Contribution for D2
 
 | Name | Contribution |
 |----------|----------|
