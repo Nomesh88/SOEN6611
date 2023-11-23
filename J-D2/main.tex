@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{subfiles}
+\usepackage{titling}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{docmute}
+\usepackage{lipsum}
+\usepackage{makecell}
+\usepackage{ragged2e}
+\usepackage{multirow}
+\usepackage{paralist}
+\usepackage[dvipsnames]{xcolor}
+\fboxsep0pt
+
+\usepackage{caption}
+\usepackage{glossaries}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,      
+  urlcolor=cyan,
+  pdftitle={This test},
+  pdfpagemode=FullScreen,
+}
+\urlstyle{same}
+
+\DeclareUnicodeCharacter{2212}{-}
+
+
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+\usepackage[inline]{enumitem}
+\newcommand{\METRICSTICS}{\texttt{METRICSTICS}\xspace}
+\begin{document}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=14cm]{Concordia-logo.jpeg}
+    \label{fig:Concordia}
+\end{figure}
+
+\title{SOEN 6611 \\ \vspace{\baselineskip}  DELIVERY 2 \\ Team J}
+\author{%
+  Quoc Phong Ngo \\
+  SanVinoth Pacham   \\
+  Preet Angad Singh  \\
+  Siddharth Bharat Oza   \\
+  Nomesh Palakaluri
+}
+
+
+
+\maketitle
+
+\centering{\href{https://github.com/Nomesh88/SOEN6611/tree/main}{Github Link}}
+\pagebreak
+\tableofcontents
+
+\pagebreak
+
+\section*{Symbols and Abbreviations}
+
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{|p{2cm}|p{7.5cm}|} \hline 
+         GQM & Goal Metric Question \\ \hline
+         UC & Use Case \\ \hline
+         HRM & Human Resource Management \\ \hline
+         SLOC & Source Line of Codes SLOC(L) Logical SLOC \\ \hline
+         UCP & Use Case Point \\ \hline
+         PF & Productivity Factor \\ \hline
+         UUCP & Unadjusted Use Case Points \\ \hline
+         TCF & Technical Complexity Factor \\ \hline
+         Ecf & Environmental Complexity Factor \\ \hline
+         UAW & Unadjusted Actor Weight \\ \hline
+         UUCW & Unadjusted Use Case Weight \\ \hline
+         WTi & Technical Complexity Factor Weight \\ \hline
+         Fi & Perceived Impact Weight \\ \hline
+         WEi & Environmental Complexity Factor Weight \\ \hline
+    \end{tabular}
+    \label{tab:my_label}
+\end{table}
+
+\section*{List of Figures}
+\normalsize{
+\raggedright{
+\hyperref[sec: Use Case Diagram]{3.1 METRICSTICS Application}. . . . . . . . . . . . . . . .  . . . . . . . . .  . . . . . . . 11 \\
+\hyperref[sec: Use Case Diagram]{3.2 Code Sample} . . . . . . . . . . . . . . . . . . . . . . . . .  . . . . . . . . .  . . . . . . . 12 \\
+\hyperref[sec: Use Case Diagram]{3.3 Python Structure Classes}. . . . . . . . . . . . . . . . . .  . . . . . . . . .  . . . . . . . 13 \\
+\hyperref[sec: Use Case Diagram]{4.1 Cyclometric Complexity of Metristics clas} . . . . . . . .  . . . . . . . . . . . . . . . . 16\\
+\hyperref[sec: Use Case Diagram]{4.2 Cyclometric Complexity of MetristicsFrame class}. . . .  . . . . . . . . .  . . . . . . . 16\\
+\hyperref[sec: Use Case Diagram]{4.3 Cyclometric Complexity of DataGenerator class} . . . . . . . .  . . . . . . . . .  . . . 17\\
+\hyperref[sec: Use Case Diagram]{4.4 Cyclometric Complexity of LoginWindow clas}. . . . . . . . . . . . . . .  . . . . . . . 17\\
+\hyperref[sec: Use Case Diagram]{4.5 Cyclometric Complexity of App class} . . . . . . . . . . . . . . . . . . . . .  . . . . . . 17\\
+\hyperref[sec: Use Case Diagram]{5.1 Overall dependencies of the System}. . . . . . . . . . . .  . . . . . . . . .  . . . . . . . .24\\
+\hyperref[sec: Use Case Diagram]{6.1 Physical and Logical SLOC} . . . . . . . . . . . . . . . . . . . . . . . . . . .  . . . . . . 26\\
+}}
+
+\pagebreak
+\section{Background Information}
+\raggedright{\normalsize{The development of the Healthcare Workers Analytics Platform, referred to as METRICSTICS, will entail the creation of a pivotal system aimed at providing a holistic analysis of healthcare workforce performance. This system is envisioned to conduct robust statistical examinations of various workforce metrics, thus equipping healthcare management with valuable tools to effectively oversee trends in staffing and optimize workforce strategies. Access to METRICSTICS will be extended to healthcare personnel, including both frontline healthcare workers and administrative staff, fostering collaborative data input processes for the former and seamless access to statistical insights for the latter. Furthermore, METRICSTICS will facilitate the generation of comprehensive reports, which will be presented periodically to the governing board, offering critical insights for informed decision-making.}} \\[2\baselineskip]
+\raggedright{\normalsize{Remark: The primary stakeholders for METRICSTICS encompass healthcare workers, including frontline staff and administrative personnel, as well as healthcare management and governing authorities.}}
+
+\pagebreak
+\input{problem1}
+
+\pagebreak
+
+\section{Work Distribution}
+\begin{table}[htb]
+    \RaggedRight
+    \begin{tabular}{|p{4cm}|p{5.5cm}|} \hline 
+         Name & Contribution \\ \hline
+         Quoc Phong Ngo [40230574] & Problem 4, developing the code and testing with various test cases \\ \hline
+        SanVinoth Pacham [40198906] & Problem 4 \& 8, modifications and updates in the code, problem 8 \\ \hline
+        Preet Angad Singh [40234930] & Problem 3 Use case point approach\\ \hline
+        Siddharth Bharat Oza [40230155]	& Problem 3 COCOMO81 model, documentation of report in the latex\\ \hline
+        Nomesh Palakaluri [40229979] & Problem 5,6,7 and documentation of the report\\ \hline
+    \end{tabular}
+    \label{tab:my_label}
+\end{table}
+
+\section{References}
+
+\normalsize{\textit{tkinter — Python interface to Tcl/Tk: }}\\
+\hyperlink{https://docs.python.org/3/library/tkinter.html}{https://docs.python.org/3/library/tkinter.html}
+\newline
+\newline
+\normalsize{\textit{Developing a Full Tkinter Object-Oriented Application: }}\\
+\hyperlink{https://www.pythontutorial.net/tkinter/tkinter-object-oriented-application/}{https://www.pythontutorial.net/tkinter/tkinter-object-oriented-application/}
+\newline
+\newline
+\normalsize{\textit{Radon - Introduction to Code Metrics}}\\
+\hyperlink{https://radon.readthedocs.io/en/latest/intro.html#cyclomatic-complexity}{https://radon.readthedocs.io/en/latest/intro.html#cyclomatic-complexity}
+\newline
+\newline
+\normalsize{For genarating Palntuml code for class diagram based on our code}
+\hyperlink{https://chat.openai.com/ }{https://chat.openai.com/ } 
+\newline
+\newline
+\normalsize{Using the code genrated from chatgpt we plot dependency diagram}
+\hyperlink{https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000}{https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000}
+
+
+
+\vspace{\baselineskip}
+
+
+\end{document}
+
